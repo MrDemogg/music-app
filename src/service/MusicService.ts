@@ -11,7 +11,7 @@ export const musicAPI = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000' }),
   tagTypes: ['Artists', 'Albums', 'Tracks'],
   endpoints: (build) => ({
-    fetchArtists: build.query<IArtists, IArtists>({
+    fetchArtists: build.query<IArtists[], undefined>({
       query: arg => ({
         url: '/artists',
         method: 'GET'
@@ -26,7 +26,7 @@ export const musicAPI = createApi({
       }),
       invalidatesTags: ['Artists']
     }),
-    fetchAlbums: build.query<IAlbums, IAlbums>({
+    fetchAlbums: build.query<IAlbums[], IAlbums>({
       query: arg => ({
         url: `/albums/${arg.albumId ? arg.albumId : ''}`,
         method: 'GET',
@@ -44,7 +44,7 @@ export const musicAPI = createApi({
       }),
       invalidatesTags: ['Albums']
     }),
-    fetchTracks: build.query<ITracks, ITracks>({
+    fetchTracks: build.query<ITracks[], ITracks>({
       query: arg => ({
         url: '/tracks',
         method: 'GET',
