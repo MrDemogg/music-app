@@ -1,25 +1,47 @@
 import React from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {musicAPI} from "../service/MusicService";
-import VisualInfo from "./UI/VisualInfo";
+import {Card, CardActionArea, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
+import Cards from "./UI/Cards";
+import {IAlbums} from "../models/IAlbums";
 
 const Albums = () => {
   const params = useParams()
-  const {data: albums, isLoading, isError, status} = musicAPI.useFetchAlbumsQuery({artistFilterName: params.artist ? params.artist : ''})
+  const router = useNavigate()
+  const {data: albums, isLoading, isError, status, refetch} = musicAPI.useFetchAlbumsQuery({artistFilterName: params.artist ? params.artist : ''})
   return (
     <div>
-      <VisualInfo isLoading={isLoading} isError={isError} status={status} />
-      {albums && albums.length > 0
-        ? albums.map(album =>
-          <div key={album._id}>
-            <div>{album.name}</div>
-            <div>{album.artist}</div>
-            <img src={album.photo} alt={'fgf'}/>
-            <div>{album.year}</div>
-          </div>
-        )
-        : <div>Ничего нет</div>
-      }
+      <Cards
+        isError={isError}
+        isLoading={isLoading}
+        status={status}
+        refetch={refetch}
+        albums={albums}
+        albumsElem={(album: IAlbums) =>
+          <Card sx={{ width: 300, bgcolor: '#1d1d1d', marginRight: 3, marginLeft: 3 }} variant={'outlined'} key={album._id}>
+            <CardActionArea
+              onClick={() => router('/tracks/' + album.name)}
+            >
+              <CardHeader
+                title={album.name}
+                sx={{textAlign: 'center', color: '#fff'}}
+                subheaderTypographyProps={{color: 'rgba(255, 255, 255, 0.7)'}}
+                subheader={'Год создания ' + album.year}
+              />
+              <CardMedia
+                component="img"
+                width={200}
+                height={200}
+                image={album.photo}
+                alt={album.name}
+              />
+              <CardContent>
+                <Typography variant="body2" sx={{color: 'rgba(255, 255, 255, 0.7)'}}>Author: {album.artist}</Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        }
+      />
     </div>
   );
 };
