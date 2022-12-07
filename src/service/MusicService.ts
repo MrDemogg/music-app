@@ -28,10 +28,10 @@ export const musicAPI = createApi({
     }),
     fetchAlbums: build.query<IAlbums[], IAlbums>({
       query: arg => ({
-        url: `/albums/${arg.albumId ? arg.albumId : ''}`,
+        url: arg.albumId ? `/albums/${arg.albumId}` : '/albums',
         method: 'GET',
         params: {
-          artist: arg.artistFilterName ? arg.artistFilterName : ''
+          artist: arg.artistFilterName
         }
       }),
       providesTags: result => ['Albums']
