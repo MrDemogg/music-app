@@ -1,16 +1,24 @@
 import React, {FC} from 'react';
 import {InfinitySpin} from "react-loader-spinner";
 import {Typography} from "@mui/material";
+import { useAppSelector} from "../../hooks/redux";
 
 interface StatusProps {
   isLoading: boolean,
-  isError: boolean,
-  status: string
 }
 
-const VisualInfo: FC<StatusProps> = ({isError, isLoading, status}) => {
+const VisualInfo: FC<StatusProps> = ({isLoading}) => {
+  const {error, globalIsError} = useAppSelector(state => state.musicReducer)
+
   return (
-    <div>
+    <div style={{
+      position: 'absolute',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      left: 0,
+      right: 0,
+      textAlign: 'center',
+    }}>
       {isLoading
         ? <div style={{margin: 'auto', width: 200, height: 200}}>
           <InfinitySpin
@@ -18,11 +26,8 @@ const VisualInfo: FC<StatusProps> = ({isError, isLoading, status}) => {
             color="#4fa94d"
           />
         </div>
-        : isError
-          && <Typography variant={'h3'} sx={{textAlign: 'center'}}>{status === 'rejected'
-            ? 'Неожиданная ошибка связанная с сервером :( Повторите позже'
-            : 'Ошибка'
-          } </Typography>
+        : globalIsError
+          && <Typography variant={'h3'} sx={{textAlign: 'center'}}>{error && error}</Typography>
       }
     </div>
   );
