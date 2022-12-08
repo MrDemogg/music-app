@@ -18,14 +18,6 @@ export const musicAPI = createApi({
       }),
       providesTags: result => ['Artists']
     }),
-    postArtist: build.mutation<string, IArtists>({
-      query: arg => ({
-        url: '/artists',
-        method: 'POST',
-        body: arg
-      }),
-      invalidatesTags: ['Artists']
-    }),
     fetchAlbums: build.query<IAlbums[], IAlbums>({
       query: arg => ({
         url: arg.albumId ? `/albums/${arg.albumId}` : '/albums',
@@ -36,31 +28,15 @@ export const musicAPI = createApi({
       }),
       providesTags: result => ['Albums']
     }),
-    postAlbum: build.mutation<string, IAlbums>({
-      query: arg => ({
-        url: '/albums',
-        method: 'POST',
-        body: arg
-      }),
-      invalidatesTags: ['Albums']
-    }),
     fetchTracks: build.query<ITracks[], ITracks>({
       query: arg => ({
         url: '/tracks',
         method: 'GET',
         params: {
-          album: arg.albumFilterName ? arg.albumFilterName : ''
+          album: arg.albumFilterName
         }
       }),
       providesTags: result => ['Tracks']
-    }),
-    postTrack: build.mutation<string, ITracks>({
-      query: arg => ({
-        url: '/tracks',
-        method: 'POST',
-        body: arg
-      }),
-      invalidatesTags: ['Tracks']
     }),
     register: build.mutation<string, IRegister>({
       query: arg => ({
@@ -85,7 +61,8 @@ export const musicAPI = createApi({
         },
         body: {
           track: arg.track
-        }
+        },
+        responseHandler: response => response.text()
       })
     })
   })
