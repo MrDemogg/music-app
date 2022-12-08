@@ -3,21 +3,28 @@ import {useNavigate, useParams} from "react-router-dom";
 import {musicAPI} from "../service/MusicService";
 import {Card, CardActionArea, CardContent, CardHeader, CardMedia, Typography} from "@mui/material";
 import Cards from "./UI/Cards";
-import {IAlbums} from "../models/IAlbums";
+import {useAppDispatch} from "../hooks/redux";
+import {musicSlice} from "../store/reducers/MusicSlice";
 
 const Albums = () => {
   const params = useParams()
   const router = useNavigate()
-  const {data: albums, isLoading, isError, status, refetch} = musicAPI.useFetchAlbumsQuery({artistFilterName: params.artist ? params.artist : ''})
+  const {data: albums, isLoading, isError, refetch, error} = musicAPI.useFetchAlbumsQuery({artistFilterName: params.artist ? params.artist : ''})
+  const dispatch = useAppDispatch()
+
+  if (isError) {
+    dispatch(musicSlice.actions.setGlobalIsError(isError))
+  }
+
   return (
     <div>
       <Cards
         isError={isError}
         isLoading={isLoading}
-        status={status}
         refetch={refetch}
         albums={albums}
-        albumsElem={(album: IAlbums) =>
+        error={error}
+        albumsElem={(album) =>
           <Card sx={{ width: 300, bgcolor: '#1d1d1d', marginRight: 3, marginLeft: 3 }} variant={'outlined'} key={album._id}>
             <CardActionArea
               onClick={() => router('/tracks/' + album.name)}

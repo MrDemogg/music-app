@@ -5,16 +5,21 @@ import {CardActionArea, CardHeader, CardMedia, Typography} from "@mui/material";
 import {musicAPI} from "../service/MusicService";
 import {useNavigate} from "react-router-dom";
 import Cards from "./UI/Cards";
-import {IArtists} from "../models/IArtists";
-
+import {useAppDispatch} from "../hooks/redux";
+import {musicSlice} from "../store/reducers/MusicSlice";
 const Artists = () => {
-  const {data: artists, refetch, status, isLoading, isError} = musicAPI.useFetchArtistsQuery(undefined)
+  const {data: artists, refetch, isLoading, isError, error} = musicAPI.useFetchArtistsQuery(undefined)
   const router = useNavigate()
+  const dispatch = useAppDispatch()
+
+  if (isError) {
+    dispatch(musicSlice.actions.setGlobalIsError(isError))
+  }
 
   return (
     <div>
-      <Cards artists={artists && artists} artistElem={
-        (artist: IArtists) =>
+      <Cards artists={artists && artists} error={error} artistElem={
+        (artist) =>
           <Card sx={{ width: 300, bgcolor: '#1d1d1d', marginRight: 3, marginLeft: 3 }} variant={'outlined'} key={artist._id}>
             <CardActionArea
               onClick={() => router('/albums/' + artist.name)}
@@ -32,7 +37,7 @@ const Artists = () => {
               </CardContent>
             </CardActionArea>
           </Card>
-      } isError={isError} isLoading={isLoading} status={status} refetch={refetch} />
+      } isError={isError} isLoading={isLoading} refetch={refetch} />
     </div>
   );
 };
