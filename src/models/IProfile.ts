@@ -1,4 +1,4 @@
-export interface IRegister {
+export interface IProfile {
   username: string,
   password: string
 }
