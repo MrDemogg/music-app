@@ -4,6 +4,7 @@ import {IAlbums} from "../models/IAlbums";
 import {ITracks} from "../models/ITracks";
 import {IProfile} from "../models/IProfile";
 import {ITrackHistory} from "../models/ITrackHistory";
+import {ILogout} from "../models/ILogout";
 
 export const musicAPI = createApi({
   reducerPath: 'musicAPI',
@@ -49,6 +50,16 @@ export const musicAPI = createApi({
         url: '/users/sessions',
         method: 'POST',
         body: arg
+      })
+    }),
+    logout: build.mutation<string, ILogout>({
+      query: arg => ({
+        headers: {
+          Token: arg.token
+        },
+        url: '/users/sessions/logout',
+        method: 'POST',
+        body: {username: arg.username}
       })
     }),
     postTrackHistory: build.mutation<string, ITrackHistory>({
