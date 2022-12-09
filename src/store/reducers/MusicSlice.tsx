@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 interface MusicState {
-  token: string,
+  token: string | null,
+  username: string | null,
   error: string | null,
   globalIsError: boolean
 }
 
 const initialState: MusicState = {
-  token: '',
+  token: null,
+  username: null,
   error: null,
   globalIsError: false
 }
@@ -15,7 +17,7 @@ export const musicSlice = createSlice({
   name: 'music',
   initialState,
   reducers: {
-    setToken(state, action: PayloadAction<string>) {
+    setToken(state, action: PayloadAction<string | null>) {
       state.token = action.payload
     },
     setError(state, action: PayloadAction<string | null>) {
@@ -23,6 +25,9 @@ export const musicSlice = createSlice({
     },
     setGlobalIsError(state, action: PayloadAction<boolean>) {
       state.globalIsError = action.payload
+    },
+    setUsername(state, action: PayloadAction<string | null>) {
+      state.username = action.payload
     }
   }
 })
