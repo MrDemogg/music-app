@@ -43,7 +43,7 @@ const Cards: FC<CardsProps> = ({
   }
   return (
     <div>
-      <div style={{margin: '0 auto', width: 50, display: 'flex'}}>
+      <div style={{margin: '0 auto', width: 89, display: 'flex'}}>
         <Typography style={{marginTop: 7}}>Refetch</Typography>
         <IconButton
           onClick={() => {
