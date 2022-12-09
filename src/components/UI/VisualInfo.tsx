@@ -27,7 +27,7 @@ const VisualInfo: FC<StatusProps> = ({isLoading}) => {
           />
         </div>
         : globalIsError
-          && <Typography variant={'h3'} sx={{textAlign: 'center'}}>{error && error}</Typography>
+          && <Typography variant={'h3'} sx={{textAlign: 'center', zIndex: 999}}>{error && error}</Typography>
       }
     </div>
   );
