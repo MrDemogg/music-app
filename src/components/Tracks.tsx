@@ -24,11 +24,7 @@ const Tracks = () => {
 
   const playHandler = (userToken: string, id: string) => {
     postTrackHistory({token: userToken, track: id}).then((res: any) => {
-      console.log(res)
       if ('error' in res) {
-        console.log('error')
-        console.log('data' in res.error && 'data')
-        console.log(res.error.data)
         if ('data' in res.error) {
           dispatch(musicSlice.actions.setGlobalIsError(true))
           dispatch(musicSlice.actions.setError(res.error.data))
@@ -65,7 +61,7 @@ const Tracks = () => {
                 </Typography>
               </CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-                <IconButton aria-label="play/pause" onClick={() => track._id && playHandler(token, track._id)
+                <IconButton aria-label="play/pause" onClick={() => track._id && token && playHandler(token, track._id)
                 }>
                   <PlayArrowIcon sx={{ height: 38, width: 38 }} />
                 </IconButton>
