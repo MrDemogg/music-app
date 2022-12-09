@@ -2,8 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/dist/query/react'
 import {IArtists} from "../models/IArtists";
 import {IAlbums} from "../models/IAlbums";
 import {ITracks} from "../models/ITracks";
-import {IRegister} from "../models/IRegister";
-import {ILogin} from "../models/ILogin";
+import {IProfile} from "../models/IProfile";
 import {ITrackHistory} from "../models/ITrackHistory";
 
 export const musicAPI = createApi({
@@ -38,14 +37,14 @@ export const musicAPI = createApi({
       }),
       providesTags: result => ['Tracks']
     }),
-    register: build.mutation<string, IRegister>({
+    register: build.mutation<string, IProfile>({
       query: arg => ({
         url: '/users',
         method: 'POST',
         body: arg
       })
     }),
-    login: build.mutation<ILogin, ILogin>({
+    login: build.mutation<string, IProfile>({
       query: arg => ({
         url: '/users/sessions',
         method: 'POST',
