@@ -1,3 +1,5 @@
+# To work, you will need to run the server https://github.com/MrDemogg/like-last-fm.git
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
