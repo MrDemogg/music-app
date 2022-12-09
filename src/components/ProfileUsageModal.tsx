@@ -38,6 +38,7 @@ const ProfileUsageModal: FC<ProfileUsageModalProps> = ({handleChange, visible}) 
         if ('originalStatus' in res.error && res.error.originalStatus === 201) {
           dispatch(musicSlice.actions.setToken(res.error.data))
           dispatch(musicSlice.actions.setUsername(onRegisterUsername !== '' ? onRegisterUsername : username))
+          localStorage.setItem('user', JSON.stringify({username: onRegisterUsername !== '' ? onRegisterUsername : username, token: res.error.data}))
           handleChange()
         } else {
           setError(true)
@@ -69,8 +70,6 @@ const ProfileUsageModal: FC<ProfileUsageModalProps> = ({handleChange, visible}) 
     <Modal
       open={visible}
       onClose={handleChange}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
         {usageVariant === 'login'
